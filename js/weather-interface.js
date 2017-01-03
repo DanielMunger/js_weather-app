@@ -3,7 +3,12 @@ var Weather = require('./../js/weather.js').weatherModule;
 
 var displayTemp = function(city, tempData)
 {
-  $('.showWeather').text("The temperature in " + city + " is " + ((tempData * (9/5)) - 459) + " degrees Farenheit");
+  $('.showWeather').append("<h4>The temperature in " + city + " is " + ((tempData * (9/5)) - 459) + " degrees Farenheit</h4>");
+};
+
+var displayWind = function(city, windData)
+{
+  $('.showWeather').append("<h4>The wind speed is " + windData + " mph.</h4>");
 };
 
 $(document).ready(function() {
@@ -11,6 +16,9 @@ $(document).ready(function() {
   $('#weatherLocation').click(function() {
     var city = $('#location').val();
     $('#location').val("");
-    currentWeatherObject.getWeather(city, displayTemp);
+    $('.showWeather').text("");
+    currentWeatherObject.getTemperature(city, displayTemp);
+    currentWeatherObject.getWind(city, displayWind);
+    currentWeatherObject.getFiveDayForecast(city);
   });
 });
