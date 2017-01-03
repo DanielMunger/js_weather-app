@@ -25,15 +25,22 @@ Weather.prototype.getWind = function (city, displayFunction) {
 
 Weather.prototype.getFiveDayTemps = function(fiveDayForcast){
   var temps = [];
-
-  console.log(fiveDayForcast);
   fiveDayForcast.forEach(function(day) {
     temps.push(day.main.temp);
-    console.log(day.main.temp);
   });
+  return temps;
 };
 
-Weather.prototype.getFiveDayForecast = function(city){
+Weather.prototype.getWeatherDescriptions = function(fiveDayForcast)
+{
+  var descriptions = [];
+  fiveDayForcast.forEach(function(day) {
+      descriptions.push(day.weather[0].description);
+  });
+  return descriptions;
+};
+
+Weather.prototype.getFiveDayForecast = function(city, displayFunction){
   var instance = this;
   $.get('http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + apiKey).then(function(response)
   {
@@ -41,11 +48,11 @@ Weather.prototype.getFiveDayForecast = function(city){
     for(var i = 0; i < 5; i++)
     {
       fiveDayForcast.push(response.list[i]);
-      //console.log(response.list[i]);
-      //console.log(fiveDayForcast);
     }
-     console.log(fiveDayForcast);
-     instance.getFiveDayTemps(fiveDayForcast);
+    var temps = instance.getFiveDayTemps(fiveDayForcast);
+    var descriptions = instance.getWeatherDescriptions(fiveDayForcast);
+    console.log(descriptions);
+    displayFunction(temps, descriptions); 
   });
 };
 
