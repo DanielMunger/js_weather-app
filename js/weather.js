@@ -1,4 +1,6 @@
 var apiKey = require('./../.env').apiKey;
+var L = require('./../bower_components/leaflet/dist/leaflet-src.js');
+var OWM = require('./../bower_components/leaflet-openweathermap/leaflet-openweathermap.js');
 
 function Weather()
 {
@@ -52,8 +54,18 @@ Weather.prototype.getFiveDayForecast = function(city, displayFunction){
     var temps = instance.getFiveDayTemps(fiveDayForcast);
     var descriptions = instance.getWeatherDescriptions(fiveDayForcast);
     console.log(descriptions);
-    displayFunction(temps, descriptions); 
+    displayFunction(temps, descriptions);
   });
+};
+
+Weather.prototype.makeMap = function()
+{
+  var map = L.map('map').setView([45.47, -122.69], 13);
+
+  var tiles = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+  	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  	ext: 'png'
+  }).addTo(map);
 };
 
 exports.weatherModule = Weather;

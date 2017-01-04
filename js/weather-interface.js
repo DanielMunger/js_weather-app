@@ -30,5 +30,6 @@ $(document).ready(function() {
     currentWeatherObject.getTemperature(city, displayTemp);
     currentWeatherObject.getWind(city, displayWind);
     currentWeatherObject.getFiveDayForecast(city, displayForecast);
+    currentWeatherObject.makeMap();
   });
 });
